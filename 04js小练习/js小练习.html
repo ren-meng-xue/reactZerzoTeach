@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+   <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react-dom用于支持react操作Dom -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!--  引入babel，用于将jsx转换为js-->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <!-- babel表示我这里写的不是js而是jsx -->
+  <script type="text/babel">
+  // 一定注意区分：【js语句（代码）与js表达式】
+  //  一个表达式会产生一个值，可以放在任何一个需要值的地方
+/*
+  下面这些都是表达式 
+    * 1.a
+    *2.a+b
+    *3.demo(1)//函数调用
+    *4arr.map()
+    5. const x = function test(){}//x的结果也是表达式
+  */
+/*
+  语句（代码）
+  *if()
+  *for(){}
+  *switch(){case}
+*/
+  
+//模拟一些数据
+const data = ['Angular','Vue','React']
+  // 1创建虚拟DOM
+  const VDOM = (
+    <div>
+      <h1>前端React</h1>
+      <ul>
+        {
+          data.map((item,index)=>{
+            return <li key={index}>{item}</li>
+          })
+        }
+      </ul>
+    </div>
+  )
+  // 2渲染虚拟DOM
+  ReactDOM.render(VDOM,document.getElementById('test'))
+</script>
+</body>
+</html>
