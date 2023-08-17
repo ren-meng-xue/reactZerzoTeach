@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+  <!-- 引入prop-types 用于对组件标签属性进行限制 -->
+  <script src="../js/prop-types.js"></script>
+  <!-- 全局多了PropTypes -->
+  <script type="text/babel">
+
+    function Person (props) {
+      //函数式组件只能接受props
+      const { name, age, sex } = props
+      return (
+        <ul>
+          <li>姓名：{name}</li>
+          <li>年龄：{age}</li>
+          <li>性别：{sex}</li>
+        </ul>
+      )
+    }
+    Person.propTypes = {
+      name: PropTypes.string.isRequired,//限制name必传，且为字符串
+      sex: PropTypes.string,//限制性别为字符串
+      age: PropTypes.number,//限制年龄
+    }
+    //指定默认标签属性值
+    Person.defaultProps = {
+      sex: '不男不女',
+      age: 10
+    }
+    //渲染组件到页面
+    ReactDOM.render(<Person name="tome" age={12}  />, document.getElementById('test'))
+
+  </script>
+</body>
+
+</html>

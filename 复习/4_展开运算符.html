@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let arr1 = [1, 3, 5, 6, 7]
+    let arr2 = [3, 4, 5]
+    console.log(...arr1);//展开一个数组
+    let arr3 = [...arr1, ...arr2]//arr1和arr2结合
+
+    //在函数中使用
+    function sum (...numbers) {
+      console.log(numbers);
+      return numbers.reduce((pre, cur) => {
+        return pre + cur
+      })
+    }
+    console.log(sum(1, 2, 34));
+    //构造字面量对象时使用展开语法
+    let person = { name: 'John', age: 12 }
+    // let person2 = person
+    let person2 = { ...person }//深度复制就不会
+    // console.log(...person);//报错，展开运算符不能展开对象
+    person.name = 'js'
+    console.log(person2);//会更改名字{name: 'js', age: 12}
+
+
+
+    let person3 = {...person,name:12}
+    console.log(person3);
+  </script>
+  
+</body>
+
+</html>

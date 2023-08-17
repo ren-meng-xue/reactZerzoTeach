@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="test"></div>
+   <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+  <!-- 引入react-dom用于支持react操作Dom -->
+  <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+  <!--  引入babel，用于将jsx转换为js-->
+  <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+  <!-- babel表示我这里写的不是js而是jsx -->
+  <script type="text/babel">
+    class Time extends React.PureComponent {
+      state = { date:new Date()}
+      componentDidMount() {
+        setInterval(() => {
+          this.setState({
+            date:new Date()
+          })
+        }, 1000);
+      }
+      render(){
+        return (
+          <div>
+            <h1>hello</h1>
+            <input type="text"/>
+            {/*span会不断的被渲染，diff是多层的，那个改变就才渲染那个*/}
+            <span>现在是{this.state.date.toTimeString()}</span>
+          </div>
+        )
+      }
+    }
+  ReactDOM.render(<Time/>,document.getElementById('test'))
+  </script>
+</body>
+</html>

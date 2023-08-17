@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- 移动端适配 可加可不加 -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="test">
+
+  </div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <!-- 引入react-dom用于支持react操作Dom -->
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <!--  引入babel，用于将jsx转换为js-->
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <!-- babel表示我这里写的不是js而是jsx -->
+  <script type="text/babel">
+    // 创建组件
+    class Life extends React.Component {
+      state = {
+        opacity: 1
+      }
+      death = () => {
+        //卸载之前先清空计时器
+        clearInterval(this.timer)
+        //卸载组件
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+      }
+      demo = () => {
+        this.timer = setInterval(() => {
+          let { opacity } = this.state
+          opacity -= 0.1
+          if (opacity <= 0) opacity = 1
+          //设置新的透明度
+          this.setState({ opacity })
+        }, 200);
+      }
+      //组件挂载页面之后调用
+      componentDidMount () {
+        this.demo()
+      }
+      //组件将要卸载
+      componentWillUnmount () {
+        //清楚定时器
+          clearInterval(this.timer)
+      }
+      //初始化渲染和状态更新之后调用
+      render () {
+        return (
+          <div>
+            <h2 style={{ opacity: this.state.opacity }}>学不会</h2>
+            <button onClick={this.death}>不活了</button>
+            {/*<button onClick={this.demo}>开始变化</button>*/}
+          </div>
+        )
+      }
+    }
+    //渲染组件
+    ReactDOM.render(<Life />, document.getElementById('test'))
+
+  </script>
+</body>
+
+</html>

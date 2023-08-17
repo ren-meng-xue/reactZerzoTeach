@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+  <!-- 引入react-dom用于支持react操作Dom -->
+  <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+  <!--  引入babel，用于将jsx转换为js-->
+  <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+  <!-- babel表示我这里写的不是js而是jsx -->
+  <script type="text/babel">
+    /**
+     * 1.面试题：react/vue中的key有什么作用？（key的内部原理是什么？）
+     * 为什么遍历列表时，key最好不要用index?
+     * 
+     * 虚拟DOM中key的作用
+     * a.简单说：key是虚拟DOM的标识，在更新显示时key起着极其重要的作用
+     * b.详细说：React进行【新虚拟DOM】与【旧的虚拟DOM】进行diff算法比较
+     * 比较规则：
+     *       一：旧虚拟DOM中找到了与新虚拟DOM相同的key
+     *         1.若虚拟DOM中内容没变，直接使用之前的真实DOM
+     *         2.若虚拟DOM中内容变了，则生成新的真实的DOM，随后替换掉页面之前的真实DOM
+     *      二：旧虚拟DOM中未找到与新虚拟DOM相同的key
+     *         根据数据创建新的真实DOM，随后渲染到页面上
+     * 
+    */
+     /**
+      * 用index作为key：可能会引发的问题：
+      * 1.若对数据进行：逆序添加，逆序删除，等破坏顺序操作
+      * 会产生没有必要的真实DOM更新===>界面效果没问题，但是效率低
+      * 2.如果结构中还包含输入类的DOM
+      * 会产生错误DOM更新，====>界面有问题
+      * 3注意：如果不存在对数据破坏操作，仅用渲染表示，用index作为key是没有问题的
+     */
+    /**
+     * 慢动作回放使用index索引值作为key
+     * 数据：  {id:1,name:'小张',age:8},
+              {id:2,name:'小李',age:18}
+    
+      初始的虚拟DOM： 
+            <li key=0>小张---8 <input type="text"/></li>
+            <li key=1>小李---19 <input type="text"/></li>
+    
+      更新后的数据：
+               {id:3,name:'小王',age:99},
+               {id:1,name:'小张',age:8},
+               {id:2,name:'小李',age:18}
+    
+      更新数据后的虚拟DOM
+            <li key=0>小王---99 <input type="text"/></li>
+            <li key=1>小张---8 <input type="text"/></li>
+            <li key=2>小李---19 <input type="text"/></li>
+    */
+// ---------------------------------------------------------
+    /**
+     * 慢动作回放使用id 唯一标识作为key
+     * 数据：  {id:1,name:'小张',age:8},
+              {id:2,name:'小李',age:18}
+    
+      初始的虚拟DOM： 
+            <li key=1>小张---8 <input type="text"/></li>
+            <li key=2>小李---19 <input type="text"/></li>
+    
+      更新后的数据：
+               {id:3,name:'小王',age:99},
+               {id:1,name:'小张',age:8},
+               {id:2,name:'小李',age:18}
+    
+      更新数据后的虚拟DOM
+            <li key=3>小王---99 <input type="text"/></li>
+            <li key=1>小张---8 <input type="text"/></li>
+            <li key=2>小李---19 <input type="text"/></li>
+    */
+    class Person extends React.Component {
+      state = {
+        persons: [
+          { id: 1, name: '小张', age: 8 },
+          { id: 2, name: '小李', age: 18 }
+        ]
+      }
+      addPerson = () => {
+        const { persons } = this.state
+        const p = { id: persons.length+1, name: '小王', age: 99 }
+        this.setState({
+          persons: [p, ...persons]
+        })
+      }
+      render () {
+        return (
+          <div>
+            <h2>展示人员信息</h2>
+            <button onClick={this.addPerson}>添加小王</button>
+            <h3>使用index索引值作为key</h3>
+            <ul>
+              {this.state.persons.map((item, index) => {
+                return <li key={index}>{item.name}---{item.age}
+                  <input type="text"/>
+                  </li>
+              })}
+            </ul>
+            <hr />
+            <hr />
+            <h3>使用id（数据的唯一标识）作为key</h3>
+            <ul>
+              {this.state.persons.map(item => {
+                return <li key={item.id}>{item.name}---{item.age}
+                  <input type="text"/>
+                  </li>
+              })}
+            </ul>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Person />, document.getElementById('test'))
+  </script>
+</body>
+
+</html>

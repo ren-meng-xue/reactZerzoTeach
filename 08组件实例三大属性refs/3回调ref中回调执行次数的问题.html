@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="test"></div>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    class Demo extends React.Component {
+      state = { isHot: true }
+      showInfo = () => {
+        const { input1 } = this
+        alert(input1.value)
+      }
+      changeWeather = () => {
+        //获取原来的状态
+        const {isHot}= this.state
+        this.setState({
+          isHot: !isHot
+        })
+        //状态驱动页面展示，状态更新了，需要重新调用一次render
+      }
+      //这种方式，切换炎热的时候，不会出现null的情况，是吧ref身上的放在实例自身，不在是一个新的函数
+      saveInput = (c)=>{
+        //放在了实例上
+        this.input1=c
+        console.log('@@@',c);
+      }
+      render () {
+        const { isHot } = this.state
+        return (
+          // 拿到当前ref所在节点
+          <div>
+            <h2 onClick={this.changeWeather}>天气：{isHot ? '炎热' : '凉爽'}</h2>
+           {/* <input ref={(cur) => {this.input1 = cur
+              //功能没问题，但是会调用两次，因为每次渲染的时候(直接写，叫内联)
+              console.log('@',cur);
+            }} type="text" placeholder="输入的数据" />
+          */}
+          <input type="text" ref={this.saveInput}/>
+            <button onClick={this.showInfo}>输入的数据</button>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Demo />, document.getElementById('test'))
+
+
+  </script>
+</body>
+
+</html>
