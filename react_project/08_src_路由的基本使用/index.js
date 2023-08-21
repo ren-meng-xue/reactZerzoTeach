@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from 'react-dom/client';
 //引入App
 import App from './App.js'
-import { BrowserRouter } from 'react-router-dom'
+import { Link, BrowserRouter, Route, Router } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
