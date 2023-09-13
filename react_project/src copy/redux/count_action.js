@@ -3,7 +3,6 @@
 //同步action 就是指action的值为Object类型的一般对象
 //异步action，就是指action的值为函数
 import { INCREMENT, DECREMENT } from "./constant"
-import store from "./store"
 export const createIncrementAction = data => (
   //返回的是一般对象，所以是同步action
   {
@@ -19,9 +18,9 @@ export const createDecrementAction = data => ({
 export const createIncrementAsyncAction = (data, time) => {
   //返回的是函数，所以是异步action
   //因为函数里面能开启异步任务
-  return () => {
+  return (dispatch) => {
     setTimeout(() => {
-      store.dispatch(createIncrementAction(data))
+      dispatch(createIncrementAction(data))
     }, 500);
   }
 }

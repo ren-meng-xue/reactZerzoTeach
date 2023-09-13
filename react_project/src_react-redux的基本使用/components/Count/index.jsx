@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-//引入store，用于获取redux中的count的状态
-import store from '../../reducex/store'
-//引入actionCreator，专门用于创建action对象
-import { createIncrementAction, createDecrementAction, createIncrementAsyncAction } from '../../reducex/count_action'
+
 export default class Count extends Component {
 
   //加法
@@ -10,41 +7,37 @@ export default class Count extends Component {
 
     //获取用户输入的内容
     const { value } = this.selectNumber
+    this.props.jia(value * 1)
     //通知redux调用
-    store.dispatch(createIncrementAction(value * 1))
   }
   // 减法
   decrement = () => {
     const { value } = this.selectNumber
-    store.dispatch(createDecrementAction(value * 1))
+    this.props.jian(value * 1)
+
   }
   //奇数再加
   incrementIfOdd = () => {
     const { value } = this.selectNumber
-    const count = store.getState()
-    if (count % 2 !== 0) {
-      store.dispatch(createIncrementAction(value * 1))
+    if (this.props.count % 2 !== 0) {
+      this.props.jia(value * 1)
     }
+
   }
   //异步加
   incrementAsync = () => {
     const { value } = this.selectNumber
-    // setTimeout(() => {
-    store.dispatch(createIncrementAsyncAction(value * 1, 500))
-    // }, 500);
+    this.props.jianAsync(value * 1, 500)
+
   }
   componentDidMount () {
     //检测redux中状态的变化，只要变化就调用render
-    store.subscribe(() => {
-      this.setState({
-      })
-    })
+
   }
   render () {
-    console.log(store);
     return (
       <div>
-        <h1>当前求和为：{store.getState()}</h1>
+        <h1>当前求和{this.props.count}</h1>
         <select ref={c => this.selectNumber = c}>
           <option value="1">1</option>
           <option value="2">2</option>
