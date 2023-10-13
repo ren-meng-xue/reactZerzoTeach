@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import countReducer from './count_reducer'
 //引入redux-thunk 用于支持异步action
 import thunk from 'redux-thunk'
-
+import { } from 'redux-devtools-extensions'
 const state = {
   name: '张三',
   age: 12
